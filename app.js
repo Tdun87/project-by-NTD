@@ -1743,24 +1743,40 @@ function waitForGeminiRetry() {
 
 async function requestGeminiModel(apiKey, conversation, model) {
   const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(apiKey)}`;
-  const response = await fetch(endpoint, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    signal: AbortSignal.timeout(30_000),
-    body: JSON.stringify({
-      systemInstruction: getConsultantSystemInstruction(),
-      contents: conversation,
-      generationConfig: { thinkingConfig: { thinkingBudget: 0 }, temperature: 0.35, maxOutputTokens: 700 },
-    }),
-  });
+  const controller = new AbortController();
+  const timeoutId = window.setTimeout(() => controller.abort(), 35_000);
+  let response;
   let data;
   try {
-    data = await response.json();
-  } catch {
-    if (!response.ok) {
-      throw createGeminiApiError(`HTTP ${response.status}${response.statusText ? ` ${response.statusText}` : ""}: Gemini trả về nội dung lỗi không phải JSON.`, response.status);
+    response = await fetch(endpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      signal: controller.signal,
+      body: JSON.stringify({
+        systemInstruction: getConsultantSystemInstruction(),
+        contents: conversation.slice(-16),
+        generationConfig: {
+          
+          temperature: 0.35,
+          maxOutputTokens: 512,
+        },
+      }),
+    });
+    try {
+      data = await response.json();
+    } catch {
+      if (!response.ok) {
+        throw createGeminiApiError(`HTTP ${response.status}${response.statusText ? ` ${response.statusText}` : ""}: Gemini trả về nội dung lỗi không phải JSON.`, response.status);
+      }
+      throw new Error("Gemini trả về phản hồi không đọc được.");
     }
-    throw new Error("Gemini trả về phản hồi không đọc được.");
+  } catch (error) {
+    if (controller.signal.aborted) {
+      throw createGeminiApiError("Gemini phản hồi quá lâu (đã hết thời gian chờ 35s); vui lòng thử lại.", 0);
+    }
+    throw error;
+  } finally {
+    window.clearTimeout(timeoutId);
   }
   if (!response.ok) {
     const reason = data.error?.message || response.statusText || "Không có thông tin lỗi chi tiết.";
@@ -1778,18 +1794,12 @@ async function requestGeminiConsultantReply(apiKey, conversation) {
   try {
     return await requestGeminiModel(apiKey, conversation, "gemini-3.5-flash-lite");
   } catch (error) {
+    // Timeouts/network errors never enter the fallback chain — rethrow immediately.
     if (!isGeminiOverloaded(error)) throw error;
   }
 
   await waitForGeminiRetry();
-  try {
-    return await requestGeminiModel(apiKey, conversation, "gemini-3.5-flash-lite");
-  } catch (error) {
-    if (!isGeminiOverloaded(error)) throw error;
-  }
-
-  await waitForGeminiRetry();
-  return requestGeminiModel(apiKey, conversation, "gemini-3.5-flash-lite");
+  return requestGeminiModel(apiKey, conversation, "gemini-3.5-flash");
 }
 
 function initializeAiConsultant() {
@@ -1992,6 +2002,7 @@ if (document.readyState === "loading") {
 } else {
   initializeAiConsultant();
 }
+
 
 
 
