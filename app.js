@@ -1,4 +1,4 @@
-const STORAGE_KEY = "vn-anti-scam-demo-reports";
+﻿const STORAGE_KEY = "vn-anti-scam-demo-reports";
 const SCAN_HISTORY_KEY = "vn-anti-scam-scan-history";
 const DEVICE_TOKEN_KEY = "vn-anti-scam-device-token";
 const LOCAL_DIRECTORY_KEY = "vn-anti-scam-local-directory";
@@ -1783,7 +1783,7 @@ async function requestGeminiConsultantReply(apiKey, conversation) {
 
   await waitForGeminiRetry();
   try {
-    return await requestGeminiModel(apiKey, conversation, "gemini-3.8-flash-lite");
+    return await requestGeminiModel(apiKey, conversation, "gemini-2.5-flash");
   } catch (error) {
     if (!isGeminiOverloaded(error)) throw error;
   }
@@ -1992,3 +1992,4 @@ if (document.readyState === "loading") {
 } else {
   initializeAiConsultant();
 }
+
