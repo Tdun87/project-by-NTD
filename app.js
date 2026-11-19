@@ -1633,7 +1633,7 @@ document.querySelector("#clear-scan-history").addEventListener("click", async ()
       const response = await fetch(`${API_BASE}/scan-history`, {
         method: "DELETE",
         headers: { "X-Device-Token": savedToken },
-        signal: AbortSignal.timeout(1500),
+        signal: AbortSignal.timeout(30000),
       });
       serverCleared = response.ok;
     }
@@ -1783,7 +1783,7 @@ async function requestGeminiConsultantReply(apiKey, conversation) {
 
   await waitForGeminiRetry();
   try {
-    return await requestGeminiModel(apiKey, conversation, "gemini-2.5-flash");
+    return await requestGeminiModel(apiKey, conversation, "gemini-2.5-flash-lite");
   } catch (error) {
     if (!isGeminiOverloaded(error)) throw error;
   }
@@ -1992,4 +1992,5 @@ if (document.readyState === "loading") {
 } else {
   initializeAiConsultant();
 }
+
 
