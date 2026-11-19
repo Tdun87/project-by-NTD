@@ -1776,20 +1776,20 @@ async function requestGeminiModel(apiKey, conversation, model) {
 
 async function requestGeminiConsultantReply(apiKey, conversation) {
   try {
-    return await requestGeminiModel(apiKey, conversation, "gemini-2.5-flash-lite");
+    return await requestGeminiModel(apiKey, conversation, "gemini-3.5-flash-lite");
   } catch (error) {
     if (!isGeminiOverloaded(error)) throw error;
   }
 
   await waitForGeminiRetry();
   try {
-    return await requestGeminiModel(apiKey, conversation, "gemini-2.5-flash-lite");
+    return await requestGeminiModel(apiKey, conversation, "gemini-3.5-flash-lite");
   } catch (error) {
     if (!isGeminiOverloaded(error)) throw error;
   }
 
   await waitForGeminiRetry();
-  return requestGeminiModel(apiKey, conversation, "gemini-2.5-flash-lite");
+  return requestGeminiModel(apiKey, conversation, "gemini-3.5-flash-lite");
 }
 
 function initializeAiConsultant() {
@@ -1992,6 +1992,7 @@ if (document.readyState === "loading") {
 } else {
   initializeAiConsultant();
 }
+
 
 
 
