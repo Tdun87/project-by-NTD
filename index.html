@@ -3174,7 +3174,7 @@ async function requestGeminiConsultantReply(apiKey, conversation) {
 
   await waitForGeminiRetry();
   try {
-    return await requestGeminiModel(apiKey, conversation, "gemini-3.8-flash-lite");
+    return await requestGeminiModel(apiKey, conversation, "gemini-2.5-flash-lite");
   } catch (error) {
     if (!isGeminiOverloaded(error)) throw error;
   }
@@ -3424,4 +3424,6 @@ if (document.readyState === "loading") {
 </script>
   </body>
 </html>
+
+
 
