@@ -758,7 +758,7 @@ function getDeviceToken() {
   return token;
 }
 
-async function apiRequest(path, body, timeout = 2500, extraHeaders = {}) {
+async function apiRequest(path, body, timeout = 45000, extraHeaders = {}) {
   const response = await fetch(`${API_BASE}${path}`, {
     method: body === undefined ? "GET" : "POST",
     headers: body === undefined ? extraHeaders : { "Content-Type": "application/json", ...extraHeaders },
@@ -1633,7 +1633,7 @@ document.querySelector("#clear-scan-history").addEventListener("click", async ()
       const response = await fetch(`${API_BASE}/scan-history`, {
         method: "DELETE",
         headers: { "X-Device-Token": savedToken },
-        signal: AbortSignal.timeout(30000),
+        signal: AbortSignal.timeout(45000),
       });
       serverCleared = response.ok;
     }
@@ -1750,7 +1750,7 @@ async function requestGeminiModel(apiKey, conversation, model) {
     body: JSON.stringify({
       systemInstruction: getConsultantSystemInstruction(),
       contents: conversation,
-      generationConfig: { temperature: 0.35, maxOutputTokens: 700 },
+      generationConfig: { thinkingConfig: { thinkingBudget: 0 }, temperature: 0.35, maxOutputTokens: 700 },
     }),
   });
   let data;
@@ -1992,6 +1992,7 @@ if (document.readyState === "loading") {
 } else {
   initializeAiConsultant();
 }
+
 
 
 
