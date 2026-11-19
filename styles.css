@@ -92,10 +92,9 @@ h1 span { color: var(--blue); }
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  color: var(--blue);
+  color: #67e8f9;
   font-size: 13px;
   font-weight: 700;
-  transition: transform 0.2s ease, color 0.2s ease;
 }
 .text-link span {
   padding-left: 2px;
@@ -250,3 +249,37 @@ h1 span { color: var(--blue); }
   position: absolute;
   inset: 0;
   border-radius:
+/* === Khóa màu chuẩn cho 2 thẻ trạng thái cạnh khiên === */
+body.cyber-theme .hero-visual .float-card {
+  background: rgba(11, 17, 32, 0.92) !important;
+  border: 1px solid rgba(56, 189, 248, 0.32) !important;
+  color: #f8fafc !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+}
+body.cyber-theme .hero-visual .float-card b {
+  color: #f8fafc !important;
+}
+body.cyber-theme .hero-visual .float-card small {
+  color: #67e8f9 !important;
+}
+
+/* === Fix dứt điểm 2 thẻ trạng thái cạnh khiên (bỏ backdrop-filter gây trắng bệch trong 3D) === */
+html body.cyber-theme .hero-visual .float-card {
+  background: linear-gradient(135deg, rgba(11, 17, 32, 0.96), rgba(15, 23, 42, 0.94)) !important;
+  background-color: #0b1120 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: 1px solid rgba(56, 189, 248, 0.35) !important;
+  box-shadow: 0 12px 28px rgba(2, 6, 23, 0.75), 0 0 18px rgba(56, 189, 248, 0.14) !important;
+  color: #f8fafc !important;
+}
+html body.cyber-theme .hero-visual .float-card b {
+  color: #f8fafc !important;
+}
+html body.cyber-theme .hero-visual .float-card small {
+  color: #67e8f9 !important;
+}
+
+.float-card, .hero-visual .float-card { background: #0b1120 !important; background-color: #0b1120 !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important; border: 1px solid rgba(56, 189, 248, 0.38) !important; color: #f8fafc !important; } .float-card b { color: #f8fafc !important; } .float-card small { color: #67e8f9 !important; }
+

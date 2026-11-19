@@ -1984,44 +1984,6 @@ function initializeAiConsultant() {
 }
 
 
-/**
- * Google "AI Mode" Cursor-Tracking Tracker
- * Lightweight single delegated pointermove listener throttled with requestAnimationFrame
- */
-function initializePointerGlowTracker() {
-  const GLOW_SELECTOR = ".btn-primary, .button-primary, .tab-btn, .mode-button, .sample-chip, #ai-chat-fab, .bgm-toggle, .stat-card, .card:not(.float-card)";
-  let rafId = null;
-  let lastTarget = null;
-  let lastX = 0;
-  let lastY = 0;
-
-  document.addEventListener("pointermove", (e) => {
-    const el = e.target instanceof Element ? e.target : e.target?.parentElement;
-    const target = el?.closest ? el.closest(GLOW_SELECTOR) : null;
-    if (!target) return;
-    // Explicitly never alter position or coordinates of float-card badges
-    if (target.classList.contains("float-card") || target.closest(".float-card")) return;
-
-    lastTarget = target;
-    lastX = e.clientX;
-    lastY = e.clientY;
-
-    if (!rafId) {
-      rafId = window.requestAnimationFrame(() => {
-        rafId = null;
-        if (!lastTarget || !lastTarget.isConnected) return;
-        const rect = lastTarget.getBoundingClientRect();
-        const x = lastX - rect.left;
-        const y = lastY - rect.top;
-        lastTarget.style.setProperty("--mx", `${x}px`);
-        lastTarget.style.setProperty("--my", `${y}px`);
-      });
-    }
-  }, { passive: true });
-}
-
-initializePointerGlowTracker();
-
 renderReports();
 void refreshStats();
 void refreshScanHistory();
