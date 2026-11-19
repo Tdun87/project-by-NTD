@@ -1776,7 +1776,7 @@ async function requestGeminiModel(apiKey, conversation, model) {
 
 async function requestGeminiConsultantReply(apiKey, conversation) {
   try {
-    return await requestGeminiModel(apiKey, conversation, "gemini-3.8-flash");
+    return await requestGeminiModel(apiKey, conversation, "gemini-2.5-flash-lite");
   } catch (error) {
     if (!isGeminiOverloaded(error)) throw error;
   }
@@ -1789,7 +1789,7 @@ async function requestGeminiConsultantReply(apiKey, conversation) {
   }
 
   await waitForGeminiRetry();
-  return requestGeminiModel(apiKey, conversation, "gemini-3.8-flash");
+  return requestGeminiModel(apiKey, conversation, "gemini-2.5-flash-lite");
 }
 
 function initializeAiConsultant() {
@@ -1992,6 +1992,8 @@ if (document.readyState === "loading") {
 } else {
   initializeAiConsultant();
 }
+
+
 
 
 
