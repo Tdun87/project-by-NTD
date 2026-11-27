@@ -1,0 +1,681 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0b1120">
+    <meta name="description" content="Đăng nhập hoặc đăng ký tài khoản VN Anti-Scam Guard — xác thực an toàn với SHA-256.">
+    <title>Đăng nhập & Đăng ký · Lừa đảo hả, để Dũng lo!</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg-base: #0b1120;
+        --bg-deep: #070b14;
+        --surface-input: rgba(2, 6, 23, 0.78);
+        --ink: #f8fafc;
+        --ink-soft: #cbd5e1;
+        --muted: #94a3b8;
+        --sky: #38bdf8;
+        --cyan: #67e8f9;
+        --emerald: #34d399;
+        --amber: #fbbf24;
+        --danger: #f87171;
+        --line: rgba(148, 163, 184, 0.2);
+        --line-focus: rgba(56, 189, 248, 0.65);
+        font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        min-height: 100%;
+        background-color: var(--bg-base);
+        color: var(--ink);
+      }
+
+      body {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 100vh;
+        overflow-x: clip;
+        background:
+          radial-gradient(ellipse 65% 45% at 50% -10%, rgba(56, 189, 248, 0.18), transparent 65%),
+          radial-gradient(ellipse 50% 40% at 85% 15%, rgba(16, 185, 129, 0.14), transparent 60%),
+          radial-gradient(ellipse 45% 40% at 15% 90%, rgba(14, 165, 233, 0.12), transparent 65%),
+          var(--bg-base);
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background-image:
+          linear-gradient(rgba(56, 189, 248, 0.035) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(56, 189, 248, 0.035) 1px, transparent 1px);
+        background-size: 40px 40px;
+        mask-image: radial-gradient(circle at 50% 35%, #000 30%, transparent 82%);
+        -webkit-mask-image: radial-gradient(circle at 50% 35%, #000 30%, transparent 82%);
+        z-index: 0;
+      }
+
+      .topbar {
+        position: relative;
+        z-index: 2;
+        height: 74px;
+        padding: 0 max(5vw, 20px);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+        background: rgba(11, 17, 32, 0.92);
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 11px;
+        color: var(--ink);
+        text-decoration: none;
+        font-size: 15px;
+        font-weight: 600;
+        letter-spacing: -0.25px;
+      }
+
+      .brand strong {
+        font-weight: 800;
+        color: var(--cyan);
+      }
+
+      .brand-mark {
+        width: 36px;
+        height: 36px;
+        display: grid;
+        place-items: center;
+        border-radius: 11px;
+        background: linear-gradient(135deg, #0ea5e9, #10b981);
+        box-shadow: 0 0 22px rgba(56, 189, 248, 0.28);
+        color: #fff;
+      }
+
+      .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        padding: 8px 14px;
+        border: 1px solid rgba(56, 189, 248, 0.28);
+        border-radius: 999px;
+        background: rgba(15, 23, 42, 0.85);
+        color: var(--cyan);
+        font-size: 12px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+      }
+
+      .back-link:hover {
+        border-color: rgba(56, 189, 248, 0.6);
+        background: rgba(8, 145, 178, 0.2);
+        transform: translateY(-1px);
+      }
+
+      .auth-main {
+        position: relative;
+        z-index: 2;
+        flex: 1;
+        display: grid;
+        place-items: center;
+        padding: 36px 18px 48px;
+      }
+
+      .auth-card {
+        position: relative;
+        isolation: isolate;
+        width: 100%;
+        max-width: 450px;
+        padding: 30px 28px 26px;
+        border-radius: 20px;
+        border: 1px solid rgba(56, 189, 248, 0.26);
+        background: linear-gradient(160deg, rgba(15, 23, 42, 0.96), rgba(11, 17, 32, 0.98));
+        box-shadow:
+          0 24px 64px rgba(2, 6, 23, 0.78),
+          0 0 36px rgba(56, 189, 248, 0.12),
+          inset 0 1px 0 rgba(255, 255, 255, 0.07);
+      }
+
+      .auth-header {
+        text-align: center;
+        margin-bottom: 22px;
+      }
+
+      .auth-eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin: 0 0 10px;
+        padding: 4px 11px;
+        border-radius: 999px;
+        border: 1px solid rgba(56, 189, 248, 0.24);
+        background: rgba(8, 145, 178, 0.14);
+        color: var(--cyan);
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 1.2px;
+        text-transform: uppercase;
+      }
+
+      .auth-header h1 {
+        margin: 0 0 8px;
+        font-size: 24px;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+        color: var(--ink);
+      }
+
+      .auth-subtitle {
+        margin: 0;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.55;
+      }
+
+      .auth-pills {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 6px;
+        padding: 5px;
+        margin-bottom: 22px;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        background: rgba(2, 6, 23, 0.82);
+      }
+
+      .auth-pill {
+        appearance: none;
+        border: 0;
+        border-radius: 999px;
+        padding: 10px 14px;
+        background: transparent;
+        color: var(--muted);
+        font-family: inherit;
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .auth-pill:hover {
+        color: var(--ink);
+      }
+
+      .auth-pill.active {
+        color: #f8fafc;
+        background: linear-gradient(110deg, #0284c7, #0ea5e9);
+        box-shadow: 0 4px 16px rgba(14, 165, 233, 0.35);
+      }
+
+      .auth-form {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .field-group {
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+      }
+
+      .field-group label {
+        color: var(--ink-soft);
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.2px;
+      }
+
+      .input-shell {
+        position: relative;
+        display: flex;
+        align-items: center;
+      }
+
+      .input-shell input {
+        width: 100%;
+        height: 44px;
+        padding: 0 14px;
+        border: 1px solid var(--line);
+        border-radius: 11px;
+        background: var(--surface-input);
+        color: var(--ink);
+        font-family: inherit;
+        font-size: 13px;
+        outline: none;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .input-shell input.has-toggle {
+        padding-right: 46px;
+      }
+
+      .input-shell input::placeholder {
+        color: #64748b;
+      }
+
+      .input-shell input:focus {
+        border-color: var(--line-focus);
+        box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.16);
+      }
+
+      .input-shell input.is-invalid {
+        border-color: rgba(248, 113, 113, 0.72);
+        box-shadow: 0 0 0 3px rgba(248, 113, 113, 0.14);
+      }
+
+      .toggle-password {
+        position: absolute;
+        right: 8px;
+        width: 32px;
+        height: 32px;
+        display: grid;
+        place-items: center;
+        border: 1px solid transparent;
+        border-radius: 8px;
+        background: transparent;
+        color: var(--muted);
+        cursor: pointer;
+        transition: color 0.18s ease, background-color 0.18s ease, border-color 0.18s ease;
+      }
+
+      .toggle-password:hover {
+        color: var(--cyan);
+        background: rgba(56, 189, 248, 0.1);
+        border-color: rgba(56, 189, 248, 0.25);
+      }
+
+      .toggle-password .icon-eye-off {
+        display: none;
+      }
+
+      .toggle-password.is-revealed .icon-eye {
+        display: none;
+      }
+
+      .toggle-password.is-revealed .icon-eye-off {
+        display: block;
+      }
+
+      .field-error {
+        min-height: 16px;
+        margin: 0;
+        color: #fca5a5;
+        font-size: 11px;
+        font-weight: 600;
+        line-height: 1.4;
+      }
+
+      .field-error:empty {
+        display: none;
+      }
+
+      .strength-panel {
+        padding: 12px 13px;
+        border: 1px solid rgba(148, 163, 184, 0.18);
+        border-radius: 12px;
+        background: rgba(2, 6, 23, 0.72);
+        display: flex;
+        flex-direction: column;
+        gap: 9px;
+      }
+
+      .strength-panel[hidden] {
+        display: none;
+      }
+
+      .strength-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        font-size: 11px;
+      }
+
+      .strength-top span:first-child {
+        color: var(--muted);
+        font-weight: 600;
+      }
+
+      .strength-label {
+        padding: 2px 9px;
+        border-radius: 999px;
+        font-weight: 700;
+        font-size: 11px;
+        border: 1px solid rgba(148, 163, 184, 0.2);
+        color: var(--muted);
+        background: rgba(15, 23, 42, 0.9);
+      }
+
+      .strength-label[data-level="weak"] {
+        color: #fecaca;
+        border-color: rgba(248, 113, 113, 0.45);
+        background: rgba(239, 68, 68, 0.16);
+      }
+
+      .strength-label[data-level="medium"] {
+        color: #fde68a;
+        border-color: rgba(251, 191, 36, 0.45);
+        background: rgba(245, 158, 11, 0.16);
+      }
+
+      .strength-label[data-level="strong"] {
+        color: #a5f3fc;
+        border-color: rgba(56, 189, 248, 0.5);
+        background: rgba(14, 165, 233, 0.18);
+      }
+
+      .strength-track {
+        height: 6px;
+        width: 100%;
+        border-radius: 999px;
+        background: rgba(148, 163, 184, 0.16);
+        overflow: hidden;
+      }
+
+      .strength-fill {
+        height: 100%;
+        width: 0%;
+        border-radius: 999px;
+        transition: width 0.22s ease, background 0.22s ease;
+        background: #64748b;
+      }
+
+      .strength-fill[data-level="empty"] {
+        width: 0%;
+        background: transparent;
+      }
+
+      .strength-fill[data-level="weak"] {
+        width: 33%;
+        background: linear-gradient(90deg, #ef4444, #f87171);
+      }
+
+      .strength-fill[data-level="medium"] {
+        width: 66%;
+        background: linear-gradient(90deg, #f59e0b, #fbbf24);
+      }
+
+      .strength-fill[data-level="strong"] {
+        width: 100%;
+        background: linear-gradient(90deg, #0ea5e9, #34d399);
+      }
+
+      .strength-rules {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 5px 10px;
+      }
+
+      .strength-rules li {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 11px;
+        color: var(--muted);
+        transition: color 0.18s ease;
+      }
+
+      .strength-rules li::before {
+        content: "○";
+        font-size: 10px;
+        color: #64748b;
+      }
+
+      .strength-rules li.met {
+        color: #a5f3fc;
+      }
+
+      .strength-rules li.met::before {
+        content: "✓";
+        color: var(--emerald);
+        font-weight: 800;
+      }
+
+      .auth-feedback {
+        margin: 0;
+        padding: 10px 12px;
+        border-radius: 10px;
+        border: 1px solid transparent;
+        font-size: 12px;
+        font-weight: 600;
+        line-height: 1.5;
+      }
+
+      .auth-feedback[hidden] {
+        display: none;
+      }
+
+      .auth-feedback.error {
+        color: #fecaca;
+        border-color: rgba(248, 113, 113, 0.42);
+        background: rgba(127, 29, 29, 0.34);
+      }
+
+      .auth-feedback.success {
+        color: #a7f3d0;
+        border-color: rgba(52, 211, 153, 0.42);
+        background: rgba(6, 78, 59, 0.4);
+      }
+
+      .submit-button {
+        height: 46px;
+        width: 100%;
+        margin-top: 2px;
+        border: 0;
+        border-radius: 11px;
+        background: linear-gradient(110deg, #0284c7, #0ea5e9 55%, #10b981);
+        color: #f8fafc;
+        font-family: inherit;
+        font-size: 14px;
+        font-weight: 700;
+        letter-spacing: 0.2px;
+        cursor: pointer;
+        box-shadow: 0 10px 26px rgba(2, 132, 199, 0.32), 0 0 18px rgba(56, 189, 248, 0.2);
+        transition: transform 0.16s ease, box-shadow 0.2s ease, opacity 0.16s ease;
+      }
+
+      .submit-button:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 14px 32px rgba(14, 165, 233, 0.4), 0 0 24px rgba(56, 189, 248, 0.3);
+      }
+
+      .submit-button:active {
+        transform: translateY(0);
+      }
+
+      .submit-button:disabled {
+        opacity: 0.6;
+        cursor: wait;
+      }
+
+      .auth-security-note {
+        margin: 18px 0 0;
+        padding-top: 15px;
+        border-top: 1px solid rgba(148, 163, 184, 0.12);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        color: var(--muted);
+        font-size: 11px;
+        text-align: center;
+      }
+
+      .auth-security-note span {
+        color: var(--cyan);
+      }
+
+      .footer {
+        position: relative;
+        z-index: 2;
+        padding: 16px max(5vw, 20px);
+        border-top: 1px solid rgba(148, 163, 184, 0.1);
+        background: rgba(11, 17, 32, 0.9);
+        color: var(--muted);
+        font-size: 11px;
+        text-align: center;
+      }
+
+      :focus-visible {
+        outline: 2px solid var(--sky);
+        outline-offset: 2px;
+      }
+
+      @media (max-width: 480px) {
+        .auth-card {
+          padding: 24px 18px 22px;
+          border-radius: 16px;
+        }
+
+        .strength-rules {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" data-home-link href="./index.html" aria-label="Lừa đảo hả, để Dũng lo!">
+        <span class="brand-mark" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            <path d="m9 12 2 2 4-4"></path>
+          </svg>
+        </span>
+        <span>Lừa đảo hả, để <strong>Dũng lo!</strong></span>
+      </a>
+      <a class="back-link" data-home-link href="./index.html">← Quay lại trang chủ</a>
+    </header>
+
+    <main class="auth-main">
+      <section class="auth-card" aria-labelledby="auth-title">
+        <div class="auth-header">
+          <p class="auth-eyebrow">BẢO MẬT ZERO-PII · SHA-256</p>
+          <h1 id="auth-title">Đăng nhập tài khoản</h1>
+          <p id="auth-subtitle" class="auth-subtitle">Xác thực bằng Email hoặc Số điện thoại Việt Nam để truy cập hệ thống.</p>
+        </div>
+
+        <div class="auth-pills" role="tablist" aria-label="Chế độ xác thực">
+          <button
+            id="pill-login"
+            class="auth-pill active"
+            type="button"
+            role="tab"
+            aria-selected="true"
+            data-auth-mode="login"
+          >Đăng nhập</button>
+          <button
+            id="pill-register"
+            class="auth-pill"
+            type="button"
+            role="tab"
+            aria-selected="false"
+            data-auth-mode="register"
+          >Đăng ký</button>
+        </div>
+
+        <form id="auth-form" class="auth-form" novalidate>
+          <div class="field-group">
+            <label for="auth-identifier">Email hoặc Số điện thoại</label>
+            <div class="input-shell">
+              <input
+                id="auth-identifier"
+                name="identifier"
+                type="text"
+                inputmode="email"
+                autocomplete="username"
+                placeholder="vd: ten@domain.vn hoặc 0987654321"
+                required
+              >
+            </div>
+            <p id="identifier-error" class="field-error" role="alert"></p>
+          </div>
+
+          <div class="field-group">
+            <label for="auth-password">Mật khẩu</label>
+            <div class="input-shell">
+              <input
+                id="auth-password"
+                name="password"
+                class="has-toggle"
+                type="password"
+                autocomplete="current-password"
+                placeholder="Tối thiểu 8 ký tự, gồm hoa, thường, số, ký tự đặc biệt"
+                required
+              >
+              <button
+                id="toggle-password"
+                class="toggle-password"
+                type="button"
+                aria-label="Hiện mật khẩu"
+                aria-pressed="false"
+                aria-controls="auth-password"
+              >
+                <svg class="icon-eye" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+                <svg class="icon-eye-off" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"></path>
+                  <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"></path>
+                  <line x1="1" y1="1" x2="23" y2="23"></line>
+                </svg>
+              </button>
+            </div>
+            <p id="password-error" class="field-error" role="alert"></p>
+          </div>
+
+          <div id="strength-panel" class="strength-panel" hidden>
+            <div class="strength-top">
+              <span>Độ mạnh mật khẩu</span>
+              <span id="strength-label" class="strength-label" data-level="empty">Yếu</span>
+            </div>
+            <div class="strength-track" aria-hidden="true">
+              <div id="strength-fill" class="strength-fill" data-level="empty"></div>
+            </div>
+            <ul class="strength-rules" aria-label="Yêu cầu bảo mật mật khẩu">
+              <li id="rule-length">Tối thiểu 8 ký tự</li>
+              <li id="rule-upper">Ít nhất 1 chữ hoa (A-Z)</li>
+              <li id="rule-lower">Ít nhất 1 chữ thường (a-z)</li>
+              <li id="rule-number">Ít nhất 1 chữ số (0-9)</li>
+              <li id="rule-special">Ít nhất 1 ký tự đặc biệt</li>
+              <li id="rule-nospace">Không chứa khoảng trắng</li>
+            </ul>
+          </div>
+
+          <p id="auth-feedback" class="auth-feedback" role="status" aria-live="polite" hidden></p>
+
+          <button id="auth-submit" class="submit-button" type="submit">Đăng nhập</button>
+        </form>
+
+        <p class="auth-security-note">
+          <span aria-hidden="true">🛡</span>
+          Mật khẩu được băm bằng Web Crypto API (SHA-256) trước khi lưu cục bộ.
+        </p>
+      </section>
+    </main>
+
+    <footer class="footer">
+      VN Anti-Scam Guard · Bảo mật thông tin trên thiết bị 
+    </footer>
+
+    <script src="./auth.js"></script>
+  </body>
+</html>

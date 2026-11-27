@@ -1,0 +1,5 @@
+backend/node_modules/
+backend/antiscam.db
+backend/antiscam.db-shm
+backend/antiscam.db-wal
+backend/.env
